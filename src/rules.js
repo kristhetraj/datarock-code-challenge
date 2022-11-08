@@ -52,7 +52,13 @@ export const bulkBuyDiscountRule =
  * Discount item when purchasing a related item
  */
 export const discountItemWithPurchaseRule =
-  ({ discountItemCode, purchaseItemCode, discountPrice, discountComment }) =>
+  ({
+    discountItemCode,
+    discountItemName,
+    purchaseItemCode,
+    discountPrice,
+    discountComment,
+  }) =>
   (items) => {
     const noFreeItems = items.reduce((acc, curr) => {
       if (curr.sku === purchaseItemCode) {

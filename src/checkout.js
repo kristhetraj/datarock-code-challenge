@@ -3,7 +3,7 @@ export const getCheckout = (rules) => {
   return {
     scan: (item) => {
       items.push(item);
-      console.log('scan', { item });
+      // console.log('scan', { item });
     },
     total: () => {
       const itemsAfterRules = rules.reduce(
@@ -15,9 +15,10 @@ export const getCheckout = (rules) => {
       );
       // console.log('itemsAfterRules', itemsAfterRules);
       const totalPrice = itemsAfterRules.reduce((acc, curr) => {
-        return acc + curr.price;
+        return +(acc + curr.price).toFixed(2);
       }, 0);
-      console.log('totalPrice', totalPrice);
+      // console.log('totalPrice', totalPrice);
+      return { totalPrice, items: itemsAfterRules };
     },
   };
 };
