@@ -1,6 +1,6 @@
 # datarock Code Challenge
 
-## Insutructions
+## Instructions
 
 1. ```npm install``` to download the dependencies to run the application
 
