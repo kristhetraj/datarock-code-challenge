@@ -1,24 +1,22 @@
 export const getCheckout = (rules) => {
-  let items = [];
+  let products = [];
   return {
-    scan: (item) => {
-      items.push(item);
-      // console.log('scan', { item });
+    scan: (product) => {
+      products.push(product);
     },
     total: () => {
-      const itemsAfterRules = rules.reduce(
+      const productsAfterRules = rules.reduce(
         (acc, rule) => {
-          const itemsAfterRule = rule(acc);
-          return [...itemsAfterRule];
+          const productsAfterRule = rule(acc);
+          return [...productsAfterRule];
         },
-        [...items]
+        [...products]
       );
-      // console.log('itemsAfterRules', itemsAfterRules);
-      const totalPrice = itemsAfterRules.reduce((acc, curr) => {
+      const totalPrice = productsAfterRules.reduce((acc, curr) => {
         return +(acc + curr.price).toFixed(2);
       }, 0);
       // console.log('totalPrice', totalPrice);
-      return { totalPrice, items: itemsAfterRules };
+      return { totalPrice, products: productsAfterRules };
     },
   };
 };

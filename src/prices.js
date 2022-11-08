@@ -1,27 +1,27 @@
 import {
   buyAmountDiscountRule,
   bulkBuyDiscountRule,
-  discountItemWithPurchaseRule,
+  discountProductWithPurchaseRule,
 } from './rules.js';
 
 const appleTvRule = buyAmountDiscountRule({
-  discountItemCode: 'atv',
+  discountProductCode: 'atv',
   noToGetDiscount: 3,
   discountPrice: 0,
   discountComment: 'By 2 get 1 Free',
 });
 
 const superIpadRule = bulkBuyDiscountRule({
-  discountItemCode: 'ipd',
+  discountProductCode: 'ipd',
   noToGetDiscount: 4,
   discountPrice: 499.99,
   discountComment: 'Bulk buy discount',
 });
 
-const freeVgaAdapter = discountItemWithPurchaseRule({
-  discountItemCode: 'vga',
-  discountItemName: 'VGA adapter',
-  purchaseItemCode: 'mbp',
+const freeVgaAdapter = discountProductWithPurchaseRule({
+  discountProductCode: 'vga',
+  discountProductName: 'VGA adapter',
+  purchaseProductCode: 'mbp',
   discountPrice: 0,
   discountComment: 'Free VGA with every MacBook',
 });

@@ -1,107 +1,107 @@
 /*
- * Rule to discount an item when you buy certain amount of it
+ * Rule to discount a product when you buy certain amount of it
  */
 export const buyAmountDiscountRule =
-  ({ discountItemCode, noToGetDiscount, discountPrice, discountComment }) =>
-  (items) => {
-    let itemsFound = 0;
-    const newItems = items.map((item) => {
-      if (item.sku === discountItemCode) {
-        itemsFound++;
+  ({ discountProductCode, noToGetDiscount, discountPrice, discountComment }) =>
+  (products) => {
+    let productsFound = 0;
+    const newProducts = products.map((product) => {
+      if (product.sku === discountProductCode) {
+        productsFound++;
       }
-      if (itemsFound === noToGetDiscount) {
-        itemsFound = 0;
+      if (productsFound === noToGetDiscount) {
+        productsFound = 0;
         return {
-          ...item,
+          ...product,
           price: discountPrice,
           comment: discountComment,
         };
       }
-      return item;
+      return product;
     });
-    return newItems;
+    return newProducts;
   };
 
 /*
- * When you bulk buy a certain amount of items they are all discounted
+ * When you bulk buy a certain amount of products they are all discounted
  */
 export const bulkBuyDiscountRule =
-  ({ discountItemCode, noToGetDiscount, discountPrice, discountComment }) =>
-  (items) => {
-    let discountItemsFound = 0;
-    const newItems = items.map((item) => {
-      if (item.sku === discountItemCode) {
-        discountItemsFound++;
+  ({ discountProductCode, noToGetDiscount, discountPrice, discountComment }) =>
+  (products) => {
+    let discountProductsFound = 0;
+    const newProducts = products.map((product) => {
+      if (product.sku === discountProductCode) {
+        discountProductsFound++;
         return {
-          ...item,
+          ...product,
           price: discountPrice,
           comment: discountComment,
         };
       }
       return {
-        ...item,
+        ...product,
       };
     });
-    if (discountItemsFound > noToGetDiscount) {
-      return newItems;
+    if (discountProductsFound > noToGetDiscount) {
+      return newProducts;
     }
-    return items;
+    return products;
   };
 
 /*
- * Discount item when purchasing a related item
+ * Discount product when purchasing a related product
  */
-export const discountItemWithPurchaseRule =
+export const discountProductWithPurchaseRule =
   ({
-    discountItemCode,
-    discountItemName,
-    purchaseItemCode,
+    discountProductCode,
+    discountProductName,
+    purchaseProductCode,
     discountPrice,
     discountComment,
   }) =>
-  (items) => {
-    const noFreeItems = items.reduce((acc, curr) => {
-      if (curr.sku === purchaseItemCode) {
+  (products) => {
+    const noFreeProducts = products.reduce((acc, curr) => {
+      if (curr.sku === purchaseProductCode) {
         return acc + 1;
       }
       return acc;
     }, 0);
-    // console.log('noFreeItems', noFreeItems);
+    // console.log('noFreeproducts', noFreeproducts);
 
-    let freeItemsLeft = noFreeItems;
-    const itemsAfterAddingFree = items.map((item) => {
-      if (freeItemsLeft > 0 && item.sku === discountItemCode) {
-        // console.log('add free item');
-        freeItemsLeft--;
+    let freeProductsLeft = noFreeProducts;
+    const productsAfterAddingFree = products.map((product) => {
+      if (freeProductsLeft > 0 && product.sku === discountProductCode) {
+        // console.log('add free product');
+        freeProductsLeft--;
         return {
-          ...item,
+          ...product,
           price: discountPrice,
           comment: discountComment,
         };
       }
       return {
-        ...item,
+        ...product,
       };
     });
-    // console.log('freeItemsLeft', freeItemsLeft);
-    // console.log('itemsAfterAddingFree', itemsAfterAddingFree);
-    if (freeItemsLeft === 0) {
-      return itemsAfterAddingFree;
+    // console.log('freeproductsLeft', freeproductsLeft);
+    // console.log('productsAfterAddingFree', productsAfterAddingFree);
+    if (freeProductsLeft === 0) {
+      return productsAfterAddingFree;
     }
 
-    const leftoverFree = Array(freeItemsLeft)
+    const leftoverFree = Array(freeProductsLeft)
       .fill()
       .map(() => {
-        // console.log('item', item)
+        // console.log('product', product)
         return {
-          sku: discountItemCode,
-          name: discountItemName,
+          sku: discountProductCode,
+          name: discountProductName,
           price: discountPrice,
           comment: discountComment,
         };
       });
     // console.log('leftoverFree', leftoverFree);
-    const newItems = [...itemsAfterAddingFree, ...leftoverFree];
-    // console.log('newItems', newItems);
-    return newItems;
+    const newProducts = [...productsAfterAddingFree, ...leftoverFree];
+    // console.log('newproducts', newproducts);
+    return newProducts;
   };

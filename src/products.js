@@ -1,4 +1,4 @@
-export const itemMap = {
+export const productMap = {
   ipd: {
     sku: 'ipd',
     name: 'Super iPad',

@@ -1,19 +1,19 @@
-import { itemMap } from './db.js';
+import { productMap } from './products.js';
 import { getCheckout } from './checkout.js';
 import { pricingRules } from './prices.js';
 
-export const scanner = (items) => {
+export const scanner = (products) => {
   const checkout = getCheckout(pricingRules);
 
-  items.forEach((item) => {
-    checkout.scan(item);
+  products.forEach((product) => {
+    checkout.scan(product);
   });
 
   return checkout.total();
 };
 
 const bootstrap = async () => {
-  scanner([]);
+  scanner([productMap.atv]);
 };
 
 bootstrap();
